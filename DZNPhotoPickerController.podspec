@@ -15,13 +15,12 @@ Pod::Spec.new do |s|
   s.default_subspec = 'Core'
   s.resources       = 'Resources', 'Source/Resources/**/*.*'
   s.requires_arc 	  = true
-  s.platform        = :ios, '7.0'
+  s.platform        = :ios, '8.0'
 
   s.subspec 'Core' do |ss|
     ss.source_files = 'Source/Classes/Core/*.{h,m}'
-    ss.dependency   'SDWebImage'
-    ss.dependency   'DZNEmptyDataSet'
-    ss.dependency   'MBProgressHUD'
+    ss.dependency   'SDWebImage', '~> 3.7.0'
+    ss.dependency   'DZNEmptyDataSet', '~> 1.7.0'
 
     ss.dependency   'DZNPhotoPickerController/Services'
     ss.dependency   'DZNPhotoPickerController/Editor'

@@ -47,6 +47,10 @@
     [DZNPhotoPickerController registerFreeService:DZNPhotoPickerControllerServiceGettyImages
                                       consumerKey:kGettyImagesConsumerKey
                                    consumerSecret:kGettyImagesConsumerSecret];
+
+    [DZNPhotoPickerController registerFreeService:DZNPhotoPickerControllerServiceGiphy
+                                      consumerKey:kGiphyConsumerKey
+                                   consumerSecret:nil];
 }
 
 - (void)viewDidLoad
@@ -100,9 +104,9 @@
 - (void)presentPhotoSearch:(id)sender
 {
     DZNPhotoPickerController *picker = [DZNPhotoPickerController new];
-    picker.supportedServices = DZNPhotoPickerControllerService500px | DZNPhotoPickerControllerServiceFlickr | DZNPhotoPickerControllerServiceGoogleImages;
+    picker.supportedServices =  DZNPhotoPickerControllerService500px | DZNPhotoPickerControllerServiceGettyImages | DZNPhotoPickerControllerServiceGiphy;
     picker.allowsEditing = NO;
-    picker.cropMode = DZNPhotoEditorViewControllerCropModeSquare;
+    picker.cropMode = DZNPhotoEditorViewControllerCropModeCircular;
     picker.initialSearchTerm = @"California";
     picker.enablePhotoDownload = YES;
     picker.allowAutoCompletedSearch = YES;
@@ -302,15 +306,9 @@
 
 #pragma mark - View Auto-Rotation
 
-- (NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskAll;
-}
-
 - (BOOL)shouldAutorotate
 {
     return YES;
 }
-
 
 @end

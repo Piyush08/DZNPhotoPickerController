@@ -157,13 +157,14 @@
     if (keyForSearchResultPerPage(self.service)) {
         [params setObject:@(resultPerPage) forKey:keyForSearchResultPerPage(self.service)];
     }
-    if (self.service == DZNPhotoPickerControllerService500px || self.service == DZNPhotoPickerControllerServiceFlickr || self.service == DZNPhotoPickerControllerServiceGettyImages) {
-        [params setObject:@(page) forKey:@"page"];
+    
+    if (keyForSearchPage(self.service)) {
+        [params setObject:@(page) forKey:keyForSearchPage(self.service)];
     }
     
     if (self.service == DZNPhotoPickerControllerService500px)
     {
-        [params setObject:@[@(2),@(4)] forKey:@"image_size"];
+        [params setObject:@[@2,@4] forKey:@"image_size"];
         [params setObject:@"Nude" forKey:@"exclude"];
     }
     else if (self.service == DZNPhotoPickerControllerServiceFlickr)
@@ -171,9 +172,10 @@
         [params setObject:photoSearchUrlPathForService(self.service) forKey:@"method"];
         [params setObject:@"json" forKey:@"format"];
         [params setObject:@"photos" forKey:@"media"];
-        [params setObject:@(YES) forKey:@"in_gallery"];
-        [params setObject:@(1) forKey:@"safe_search"];
-        [params setObject:@(1) forKey:@"content_type"];
+        [params setObject:@"relevance" forKey:@"sort"];
+        [params setObject:@YES forKey:@"in_gallery"];
+        [params setObject:@1 forKey:@"safe_search"];
+        [params setObject:@1 forKey:@"content_type"];
     }
     else if (self.service == DZNPhotoPickerControllerServiceGoogleImages)
     {
@@ -194,6 +196,13 @@
         [params setObject:@"id,thumb,artist,comp,max_dimensions" forKey:@"fields"];
         [params setObject:@"photography" forKey:@"graphical_styles"];
         [params setObject:@"true" forKey:@"exclude_nudity"];
+    }
+    else if (self.service == DZNPhotoPickerControllerServiceGiphy)
+    {
+        [params setObject:@"pg" forKey:@"rating"];
+        if (page > 1) {
+            [params setObject:@((page-1)*resultPerPage) forKey:@"offset"];
+        }
     }
     
     return params;
@@ -263,7 +272,7 @@
 - (void)searchPhotosWithKeyword:(NSString *)keyword page:(NSInteger)page resultPerPage:(NSInteger)resultPerPage completion:(DZNHTTPRequestCompletion)completion
 {
     NSString *path = photoSearchUrlPathForService(self.service);
-
+    
     NSDictionary *params = [self photosParamsWithKeyword:keyword page:page resultPerPage:resultPerPage];
     [self getObject:[DZNPhotoMetadata class] path:path params:params completion:completion];
 }
@@ -275,16 +284,16 @@
     if (isAuthenticationRequiredForService(self.service) && ![self accessToken])
     {
         [self authenticateWithClientKey:[self consumerKey] secret:[self consumerSecret]
-                       completion:^(NSString *accessToken, NSError *error) {
-                           
-                           if (!error) {
-                               [self getObject:class path:path params:params completion:completion];
-                           }
-                           else {
-                               _loading = NO;
-                               if (completion) completion(nil, error);
-                           }
-                       }];
+                             completion:^(NSString *accessToken, NSError *error) {
+                                 
+                                 if (!error) {
+                                     [self getObject:class path:path params:params completion:completion];
+                                 }
+                                 else {
+                                     _loading = NO;
+                                     if (completion) completion(nil, error);
+                                 }
+                             }];
         return;
     }
     
@@ -296,7 +305,7 @@
     else if (self.service == DZNPhotoPickerControllerServiceFlickr) {
         path = @"";
     }
-        
+    
     [self GET:path parameters:params
       success:^(AFHTTPRequestOperation *operation, id response) {
           

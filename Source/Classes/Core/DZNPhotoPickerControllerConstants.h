@@ -8,12 +8,12 @@
 //  Licence: MIT-Licence
 //
 
-UIKIT_EXTERN NSString *const DZNPhotoPickerControllerCropMode;              // An NSString (i.e. square, circular)
-UIKIT_EXTERN NSString *const DZNPhotoPickerControllerCropZoomScale;         // An NSString (from 1.0 to maximum zoom scale, 2.0f)
-UIKIT_EXTERN NSString *const DZNPhotoPickerControllerPhotoMetadata;         // An NSDictionary containing metadata from a captured photo
+extern NSString *const DZNPhotoPickerControllerCropMode;              // An NSString (i.e. square, circular)
+extern NSString *const DZNPhotoPickerControllerCropZoomScale;         // An NSString (from 1.0 to maximum zoom scale, 2.0f)
+extern NSString *const DZNPhotoPickerControllerPhotoMetadata;         // An NSDictionary containing metadata from a captured photo
 
-UIKIT_EXTERN NSString *const DZNPhotoPickerDidFinishPickingNotification;    // The notification key used when picking a photo finished.
-UIKIT_EXTERN NSString *const DZNPhotoPickerDidFailPickingNotification;      // The notification key used when picking a photo failed.
+extern NSString *const DZNPhotoPickerDidFinishPickingNotification;    // The notification key used when picking a photo finished.
+extern NSString *const DZNPhotoPickerDidFailPickingNotification;      // The notification key used when picking a photo failed.
 
 /**
  Types of supported photo services
@@ -25,6 +25,7 @@ typedef NS_OPTIONS(NSUInteger, DZNPhotoPickerControllerServices) {
     DZNPhotoPickerControllerServiceGoogleImages = (1 << 3),                 // Google Images                https://developers.google.com/custom-search/
     DZNPhotoPickerControllerServiceBingImages = (1 << 4),                   // Bing Images                  http://datamarket.azure.com/dataset/bing/search/
     DZNPhotoPickerControllerServiceGettyImages = (1 << 5),                  // Getty Images                 http://api.gettyimages.com/
+    DZNPhotoPickerControllerServiceGiphy = (1 << 6),                        // Giphy                        http://api.giphy.com/v1/gifs/search/
 };
 
 /**
@@ -72,7 +73,7 @@ typedef NS_ENUM(NSInteger, DZNPhotoPickerControllerSubscription) {
  @param service The specified service type.
  @returns The photo service name.
  */
-UIKIT_EXTERN NSString *NSStringFromService(DZNPhotoPickerControllerServices services);
+extern NSString *NSStringFromService(DZNPhotoPickerControllerServices services);
 
 /**
  Returns a list of photo service name strings.
@@ -80,7 +81,7 @@ UIKIT_EXTERN NSString *NSStringFromService(DZNPhotoPickerControllerServices serv
  @param services The bitmap of service types.
  @returns The list of photo service names.
  */
-UIKIT_EXTERN NSArray *NSArrayFromServices(DZNPhotoPickerControllerServices services);
+extern NSArray *NSArrayFromServices(DZNPhotoPickerControllerServices services);
 
 /**
  *
@@ -89,7 +90,7 @@ UIKIT_EXTERN NSArray *NSArrayFromServices(DZNPhotoPickerControllerServices servi
  @param name The specified service name.
  @returns The photo service type.
  */
-UIKIT_EXTERN DZNPhotoPickerControllerServices DZNPhotoServiceFromName(NSString *name);
+extern DZNPhotoPickerControllerServices DZNPhotoServiceFromName(NSString *name);
 
 /**
  Returns the first photo service type from a bitmask of services.
@@ -97,4 +98,4 @@ UIKIT_EXTERN DZNPhotoPickerControllerServices DZNPhotoServiceFromName(NSString *
  @param services The bitmask of services.
  @returns The photo service type.
  */
-UIKIT_EXTERN DZNPhotoPickerControllerServices DZNFirstPhotoServiceFromPhotoServices(DZNPhotoPickerControllerServices services);
+extern DZNPhotoPickerControllerServices DZNFirstPhotoServiceFromPhotoServices(DZNPhotoPickerControllerServices services);
